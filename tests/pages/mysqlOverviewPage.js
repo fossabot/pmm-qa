@@ -1,10 +1,13 @@
-const I = actor();
+const {I} = inject();
 
 module.exports = {
-
     // insert your locators and methods here
     // setting locators
     url: "graph/d/mysql-instance-summary/mysql-instance-summary",
+    instanceSummaryUrl: "graph/d/mysql-instance-summary/mysql-instance-summary",
+    instanceCompareUrl: "graph/d/mysql-instance-compare/mysql-instances-compare",
+    instanceOverviewUrl: "graph/d/mysql-instance-overview/mysql-instances-overview",
+    tableDetailsUrl: "graph/d/mysql-table/mysql-table-details",
     urlWithRecent: "graph/d/MQWgroiiz/mysql-overview?refresh=1m&orgId=1&from=now-1m&to=now",
     fields: {
         pageHeaderText: "MySQL Overview",

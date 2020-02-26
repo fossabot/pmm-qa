@@ -1,5 +1,5 @@
-const I = actor();
-
+const {I} = inject();
+var assert = require('assert');
 module.exports = {
 
     // insert your locators and methods here
@@ -12,7 +12,9 @@ module.exports = {
         applyCustomTimer: "//button[@ng-click=\"ctrl.applyCustom();\"]",
         backToDashboard: "//button[@ng-click='ctrl.close()']",
         discardChanges: "//button[@ng-click='ctrl.discard()']",
-        metricTitle: "//span[@class='panel-title']"
+        metricTitle: "//span[@class='panel-title']",
+        reportTitleWithNA: "//span[contains(text(), 'N/A')]//ancestor::div[contains(@class,'panel-container')]//span[contains(@class,'panel-title-text')]",
+        collapsedDashboardRow: "//div[@class='dashboard-row dashboard-row--collapsed']/a"
     },
 
     // introducing methods
@@ -44,7 +46,7 @@ module.exports = {
         return locator;
     },
 
-    applyTimer (timeDiff) {
+    async applyTimer (timeDiff) {
         I.click(this.fields.timePickerMenu);
         I.waitForVisible("//div[contains(text(), 'Last 5 minutes')]", 30);
         I.click("//div[contains(text(), 'Last 5 minutes')]");
@@ -74,11 +76,52 @@ module.exports = {
         }
     },
 
-    async peformPageDown (timesPagesDown) {
-        for (var i = 0; i < timesPagesDown; i++)
+    peformPageDown (timesPagesDown) {
+        for (let i = 0; i < timesPagesDown; i++)
         {
             I.pressKey('PageDown');
             I.wait(2);
         }
+    },
+
+    async grabReportNameWithNA (number) {
+        let numOfElements = await I.grabNumberOfVisibleElements(this.fields.reportTitleWithNA);
+        if (numOfElements > number )
+        {
+            let reportTitle = await I.grabTextFrom(this.fields.reportTitleWithNA);
+            assert.equal(numOfElements > number, false, numOfElements + " Reports with N/A found on dashboard " + reportTitle);
+        }
+    },
+    async expandEachDashboardRow(halfToExpand) {
+        let sectionsToExpand;
+        let sections = await I.grabTextFrom(this.fields.collapsedDashboardRow);
+        if (halfToExpand == 1) {
+            sectionsToExpand = sections.slice(0,sections.length/2);
+        } else if (halfToExpand == 2) {
+            sectionsToExpand = sections.slice(sections.length/2 , sections.length);
+        } else {
+            sectionsToExpand = sections;
+        }
+        await this.expandRows(sectionsToExpand);
+    },
+
+    async expandRows(sectionsToExpand){
+        let sections;
+        if (typeof sectionsToExpand == "string") {
+            sections = [sectionsToExpand];
+        } else {
+            sections = sectionsToExpand;
+        }
+        for (let i = 0; i < sections.length; i++ ) {
+            let sectionName = sections[i].toString().split("(");
+            let rowToExpand = `${this.fields.collapsedDashboardRow}[contains(text(), '${sectionName[0]}')]`;
+            I.click(rowToExpand);
+            I.wait(1);
+        }
+    },
+
+    openDashboard (dashboardUrl) {
+        I.amOnPage(dashboardUrl);
+        I.waitForElement(this.fields.metricTitle, 30);
     }
 }

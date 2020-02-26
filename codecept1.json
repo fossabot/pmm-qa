@@ -1,0 +1,94 @@
+{
+  "output": "tests/output",
+  "helpers": {
+    "WebDriver": {
+      "url": "http://3.136.85.147",
+      "browser": "chrome",
+      "windowSize": "2560x1600",
+      "user": "pmm_qa",
+      "key": "a965f590-d452-429d-a484-3aca621de8f5",
+      "host": "ondemand.saucelabs.com",
+      "desiredCapabilities": {
+        "screenResolution": "2560x1600",
+        "ignoreHTTPSErrors": true,
+        "acceptInsecureCerts": true,
+        "chromeOptions": {
+          "args": [ "--disable-gpu", "--window-size=2560x1600", "--no-sandbox" ]
+        }
+      }
+    },
+    "SauceHelper": {
+      "require": "codeceptjs-saucehelper"
+    },
+    "ResembleHelper" : {
+      "require": "codeceptjs-resemblehelper",
+      "screenshotFolder": "./tests/output/",
+      "baseFolder": "./tests/screenshots/base/",
+      "diffFolder": "./tests/screenshots/diff/"
+    },
+    "FileSystem": {},
+    "REST": {}
+  },
+  "include": {
+    "loginPage": "./tests/pages/loginPage.js",
+    "homePage": "./tests/pages/homePage.js",
+    "remoteInstancesPage" : "./tests/pages/remoteInstancesPage.js",
+    "adminPage" : "./tests/pages/adminPage.js",
+    "systemOverviewPage" : "./tests/pages/systemOverviewPage.js",
+    "compareSystemParametersPage" : "./tests/pages/compareSystemParametersPage.js",
+    "mysqlOverviewPage": "./tests/pages/mysqlOverviewPage.js",
+    "postgresqlOverviewPage": "./tests/pages/postgresqlOverviewPage.js",
+    "mongodbOverviewPage": "./tests/pages/mongodbOverviewPage.js",
+    "summaryDashboardPage": "./tests/pages/summaryDashboardPage.js",
+    "trendsDashboardPage": "./tests/pages/trendsDashboardPage.js",
+    "proxysqlOverviewPage": "./tests/pages/proxysqlOverviewPage.js",
+    "advancedDataExplorationPage": "./tests/pages/advancedDataExplorationPage.js",
+    "crossServerGraphsPage": "./tests/pages/crossServerGraphsPage.js",
+    "prometheusPage": "./tests/pages/prometheusPage.js",
+    "prometheusExporterStatusPage": "./tests/pages/prometheusExporterStatusPage.js",
+    "prometheusExporterOverviewPage": "./tests/pages/prometheusExporterOverviewPage.js",
+    "pxcGaleraClusterOverviewPage": "./tests/pages/pxcGaleraClusterOverviewPage.js",
+    "qanPage" : "./tests/pages/qanPage.js",
+    "mongoDbClusterSummaryPage": "./tests/pages/mongoDbClusterSummaryPage.js",
+    "pmmInventoryPage": "./tests/pages/pmmInventoryPage.js",
+    "amiInstanceSetupPage": "./tests/pages/amiInstanceSetupPage.js",
+    "pmmSettingsPage": "./tests/pages/pmmSettingsPage.js"
+  },
+  "multiple": {
+    "parallel": {
+      "chunks": 2,
+      "browsers": ["chrome"]
+    }
+  },
+  "mocha": {
+    "reporterOptions": {
+      "codeceptjs-cli-reporter": {
+        "stdout": "-",
+        "options": {
+          "verbose": false,
+          "steps": true
+        }
+      },
+      "mocha-junit-reporter": {
+        "stdout": "./tests/output/console.log",
+        "options": {
+          "mochaFile": "./tests/output/result.xml"
+        }
+      },
+      "mochawesome": {
+        "stdout": "./tests/output/mocharesult.log",
+        "options": {
+          "reportDir": "tests/output",
+          "reportFilename": "result.html"
+        }
+      }
+    }
+  },
+  "bootstrap": false,
+  "teardown": null,
+  "hooks": [],
+  "gherkin": {},
+  "tests": "tests/*_test.js",
+  "timeout": 10000,
+  "name": "pmm-qa"
+}
