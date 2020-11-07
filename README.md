@@ -1,4 +1,6 @@
 # PMM-QA
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpercona%2Fpmm-qa.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpercona%2Fpmm-qa?ref=badge_shield)
+
 Automated tests for Percona Monitoring and Management
 GUI tests are created for testing frontend of PMM. They include tests for Query Analytics and for Grafana dashboards
 
@@ -43,3 +45,7 @@ Run individual Tests:
 
 We have implemented the tests to run in parallel chunks of 3, which will basically launch 3 browsers and execute different tests,
 to make any change to that, modify the configuration file `codecept.json`
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpercona%2Fpmm-qa.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpercona%2Fpmm-qa?ref=badge_large)
